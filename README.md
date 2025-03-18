@@ -1,26 +1,29 @@
-# mud.land.BE
+# **mud.land.BE**  
 
-Overview
+## **Overview**  
+*mud.land.BE* is a Rails API that powers a procedural terrain generator. It handles user authentication and terrain data management, serving as a strictly API-only backend with no frontend components.  
 
-This Rails API handles authentication and data management for a procedural terrain generator. It provides endpoints for user authentication, terrain data storage, and retrieval. This application is a strictly API-only backend with no frontend components.
+## **Backend Features**  
+- Secure user authentication  
+- CRUD operations for terrain data  
+- Protected API endpoints  
+- Data management for procedural terrain generation  
 
-## Backend Features
+## **Frontend Features**  
+- WebGPU compute shaders for heightmap generation  
+- Stacking and blending of noise gradients (e.g., Simplex, Voronoi) with masking and fall-offs  
+- Erosion simulation over time  
+- Manual terrain editing:  
+  - Pour water to simulate erosion through rivers and lakes  
+  - Raise terrain to block water flow  
+- Custom colorization using materials  
+- Export terrain as a heightmap image or mesh  
 
-- User authentication
-- CRUD operations for terrain data
-- Secure API endpoints with authentication
-- Data handling for procedural terrain generation
+## **Current Frontend Version**  
 
-## Frontend Features
+![Procedural Terrain](app.png)  
 
-- Using WebGPU compute shaders to generate heightmap
-- Generate procedural terrain by stacking and blending different noise gradients (simplex, voronoi etc), masking and fall-offs
-- Simulate erosion over a period of time
-- Allow user to manually edit the terrain by pouring water and creating erosion through rivers and lakes. Or lift the land to block of water.
-- Set colourisations through materials
-- Export the terrain as heightmap image or mesh
+The screenshot above showcases a **4K heightmap texture** running at **60 FPS (capped)** on a **GTX 970 (4GB RAM)**.  
+Future plans include support for **8K resolution using tiled textures**, though **4K is sufficient for now**.  
 
-### Current Iteration of the Frontend
-
-![version 0.10.108](app.png "Procedural Terrain")
-| The above screenshot is rendering at 4k heightmap texture. It runs at 60fps (capped) on a GTX 970 4gb ram. I plan to increase to 8k through tiled textures. Although that's a future plan as 4k is sufficient at the moment. Also note, I am not a designer!
+*(Disclaimer: I’m not a designer!)*  
