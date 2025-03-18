@@ -10,7 +10,8 @@
 - Data management for procedural terrain generation  
 
 ## **Frontend Features**  
-- WebGPU compute shaders for heightmap generation  
+- WebGPU compute shaders for heightmap generation
+- Single page app (SPA) using vanilla JS with Typescript transpiler.
 - Stacking and blending of noise gradients (e.g., Simplex, Voronoi) with masking and fall-offs  
 - Erosion simulation over time  
 - Manual terrain editing:  
