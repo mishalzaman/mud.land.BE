@@ -10,12 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_20_012814) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_20_015651) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "gradient_noise_layers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "position", null: false
+    t.string "name", null: false
+    t.string "blend_mode", null: false
+    t.decimal "opacity", precision: 3, scale: 2, default: "1.0", null: false
+    t.integer "octaves", default: 16, null: false
+    t.integer "seed", default: 1234, null: false
+    t.integer "offset_x", default: 0, null: false
+    t.integer "offset_y", default: 0, null: false
+    t.decimal "scale_height", precision: 4, scale: 4, default: "0.3", null: false
+    t.decimal "scale_width", precision: 4, scale: 4, default: "0.3", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["position"], name: "index_gradient_noise_layers_on_position"
+  end
+
+  create_table "layers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "session_id", null: false
+    t.string "layerabe_type", null: false
+    t.uuid "layerabe_id", null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["layerabe_type", "layerabe_id"], name: "index_layers_on_layerabe"
+    t.index ["session_id", "position"], name: "index_layers_on_session_id_and_position", unique: true
+    t.index ["session_id"], name: "index_layers_on_session_id"
+  end
 
   create_table "sessions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_foreign_key "layers", "sessions"
 end
