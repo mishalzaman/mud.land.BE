@@ -15,7 +15,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_20_015651) do
   enable_extension "pg_catalog.plpgsql"
 
   create_table "gradient_noise_layers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.integer "position", null: false
     t.string "name", null: false
     t.string "blend_mode", null: false
     t.decimal "opacity", precision: 3, scale: 2, default: "1.0", null: false
@@ -27,17 +26,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_20_015651) do
     t.decimal "scale_width", precision: 4, scale: 4, default: "0.3", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["position"], name: "index_gradient_noise_layers_on_position"
   end
 
   create_table "layers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "session_id", null: false
-    t.string "layerabe_type", null: false
-    t.uuid "layerabe_id", null: false
+    t.string "layerable_type", null: false
+    t.uuid "layerable_id", null: false
     t.integer "position", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["layerabe_type", "layerabe_id"], name: "index_layers_on_layerabe"
+    t.index ["layerable_type", "layerable_id"], name: "index_layers_on_layerable"
     t.index ["session_id", "position"], name: "index_layers_on_session_id_and_position", unique: true
     t.index ["session_id"], name: "index_layers_on_session_id"
   end
