@@ -10,4 +10,24 @@ class GradientNoiseLayer < ApplicationRecord
   validates :offset_y, presence: true, numericality: { only_integer: true }
   validates :scale_height, presence: true, numericality: { greater_than: 0 }
   validates :scale_width, presence: true, numericality: { greater_than: 0 }
+
+  def self.defaults
+    {
+      simplex: {
+        name: "simplex",
+        blend_mode: "add",
+        opacity: 1.0,
+        octaves: 4,
+        seed: rand(1..10_000),
+        offset_x: 0,
+        offset_y: 0,
+        scale_height: 0.2,
+        scale_width: 0.7
+      }
+    }
+  end
+
+  def self.defaults_for(key)
+    defaults[key.to_sym]
+  end
 end
