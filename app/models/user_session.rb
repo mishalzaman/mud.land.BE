@@ -1,4 +1,4 @@
-class Session < ApplicationRecord
+class UserSession < ApplicationRecord
   has_many :layers, -> { order(position: :asc) }, dependent: :destroy
   has_many :gradient_noise_layers, through: :layers, source: :layerable, source_type: "GradientNoiseLayer"
 

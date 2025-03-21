@@ -29,21 +29,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_20_015651) do
   end
 
   create_table "layers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "session_id", null: false
+    t.uuid "user_session_id", null: false
     t.string "layerable_type", null: false
     t.uuid "layerable_id", null: false
     t.integer "position", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["layerable_type", "layerable_id"], name: "index_layers_on_layerable"
-    t.index ["session_id", "position"], name: "index_layers_on_session_id_and_position", unique: true
-    t.index ["session_id"], name: "index_layers_on_session_id"
+    t.index ["user_session_id", "position"], name: "index_layers_on_user_session_id_and_position", unique: true
+    t.index ["user_session_id"], name: "index_layers_on_user_session_id"
   end
 
-  create_table "sessions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "user_sessions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "layers", "sessions"
+  add_foreign_key "layers", "user_sessions"
 end

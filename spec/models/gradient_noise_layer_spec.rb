@@ -15,7 +15,7 @@ RSpec.describe GradientNoiseLayer, type: :model do
     )
   end
 
-  context "validations" do
+  context "validations" do 
     it "is valid with valid attributes" do
       expect(gradient_noise_layer).to be_valid
     end
@@ -56,8 +56,8 @@ RSpec.describe GradientNoiseLayer, type: :model do
   end
 
   context "associations" do
-    let!(:session) { Session.create! }
-    let!(:layer) { session.layers.create!(layerable: gradient_noise_layer, position: 1) }
+    let!(:user_session) { UserSession.create! }
+    let!(:layer) { user_session.layers.create!(layerable: gradient_noise_layer, position: 1) }
 
     it "can have an associated layer" do
       expect(gradient_noise_layer.layer).to eq(layer)
