@@ -1,4 +1,6 @@
 class GradientNoiseLayer < ApplicationRecord
+  include Defaultable
+
   has_one :layer, as: :layerable, dependent: :destroy
 
   validates :name, presence: true
@@ -25,9 +27,5 @@ class GradientNoiseLayer < ApplicationRecord
         scale_width: 0.7
       }
     }
-  end
-
-  def self.defaults_for(key)
-    defaults[key.to_sym]
   end
 end

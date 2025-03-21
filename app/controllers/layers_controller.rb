@@ -8,33 +8,43 @@ class LayersController < ApplicationController
 
   # POST /user_sessions/:user_session_id/layers
   def create
-    type = layer_params[:type]
-    variant = layer_params[:variant]
+    result = LayerCreator.create_for(
+      layer_params[:type],
+      layer_params[:variant],
+      @user_session
+    )
     
-    layer_class = type.to_s.safe_constantize
-
-    # return error if the type is not found
-    return render json:
-      { error: "Invalid type" },
-      status: :unprocessable_entity unless layer_class&.respond_to?(:defaults_for)
-
-    defaults = layer_class.defaults_for(variant)
-
-    return render json: { error: "Invalid variant" }, status: :unprocessable_entity unless defaults
-
-    layerable = layer_class.create(defaults)
-    layer = @user_session.layers.build(layerable: layerable, position: @user_session.layers.count)
-  
-    if layer.save
-      render json: layer, status: :created
+    if result.is_a?(Hash) && result[:error].present?
+      # A hash with error info was returned
+      status_code = case result[:code]
+                    when :missing_type, :missing_variant, :invalid_type, :invalid_variant
+                      :bad_request
+                    when :validation_error, :layer_creation_error
+                      :unprocessable_entity
+                    else
+                      :internal_server_error
+                    end
+      
+      render json: { error: result[:error], details: result[:details] }, status: status_code
     else
-      render json: { errors: layer.errors.full_messages }, status: :unprocessable_entity
+      render json: result, status: :created
     end
   end
 
   # DELETE /user_sessions/:user_session_id/layers/:id
   def destroy
-    # TODO
+    layer = @user_session.layers.find_by(id: params[:id])
+    
+    if layer.nil?
+      render json: { error: "Layer not found" }, status: :not_found
+    elsif layer.destroy
+      # Successfully deleted
+      head :no_content
+    else
+      # Failed to delete
+      render json: { error: "Failed to delete layer", details: layer.errors.full_messages }, 
+            status: :unprocessable_entity
+    end
   end
 
   private
