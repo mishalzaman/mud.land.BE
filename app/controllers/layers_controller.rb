@@ -31,20 +31,28 @@ class LayersController < ApplicationController
       render json: result, status: :created
     end
   end
-
+  
   # DELETE /user_sessions/:user_session_id/layers/:id
   def destroy
     layer = @user_session.layers.find_by(id: params[:id])
-    
+
     if layer.nil?
       render json: { error: "Layer not found" }, status: :not_found
-    elsif layer.destroy
-      # Successfully deleted
-      head :no_content
-    else
-      # Failed to delete
-      render json: { error: "Failed to delete layer", details: layer.errors.full_messages }, 
-            status: :unprocessable_entity
+      return
+    end
+
+    Layer.transaction do
+      deleted_position = layer.position
+      if layer.destroy
+        # Shift down positions of layers after the deleted one
+        @user_session.layers.where("position > ?", deleted_position).order(:position).each do |l|
+          l.update!(position: l.position - 1)
+        end
+        head :no_content
+      else
+        render json: { error: "Failed to delete layer", details: layer.errors.full_messages },
+              status: :unprocessable_entity
+      end
     end
   end
 
