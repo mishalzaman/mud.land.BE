@@ -3,8 +3,9 @@ class LayersController < ApplicationController
 
   # GET /user_sessions/:user_session_id/layers
   def index
-    render json: { layers: @user_session.procedural_layers }, status: :ok
-  end
+    layers = @user_session.layers.includes(:layerable)
+    render json: layers, each_serializer: LayerSerializer, status: :ok
+  end  
 
   # POST /user_sessions/:user_session_id/layers
   def create
