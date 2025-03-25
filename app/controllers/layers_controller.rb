@@ -10,8 +10,8 @@ class LayersController < ApplicationController
   # POST /user_sessions/:user_session_id/layers
   def create
     result = LayerCreator.create_for(
-      layer_params[:type],
-      layer_params[:variant],
+      layer_create_params[:type],
+      layer_create_params[:variant],
       @user_session
     )
     
@@ -31,6 +31,21 @@ class LayersController < ApplicationController
       render json: result, status: :created
     end
   end
+
+  # PATCH /user_sessions/:user_session_id/layers/:id
+  def update
+    result = LayerUpdater.update_for(params[:id], params[:data])
+  
+    if result
+      render json: result, status: :ok
+    else
+      render json: { error: "Update failed or layer not found" }, status: :unprocessable_entity
+    end
+  rescue ActionController::ParameterMissing => e
+    render json: { error: e.message }, status: :bad_request
+  rescue StandardError => e
+    render json: { error: e.message }, status: :internal_server_error
+  end  
   
   # DELETE /user_sessions/:user_session_id/layers/:id
   def destroy
@@ -58,7 +73,7 @@ class LayersController < ApplicationController
 
   private
 
-  def layer_params
+  def layer_create_params
     params.require(:procedural_layer).permit(:type, :variant)
   end
 
