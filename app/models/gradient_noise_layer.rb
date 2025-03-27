@@ -25,6 +25,28 @@ class GradientNoiseLayer < ApplicationRecord
         offset_y: 0,
         scale_height: 0.2,
         scale_width: 0.7
+      },
+      perlin: {
+        name: "perlin",
+        blend_mode: "add",
+        opacity: 1.0,
+        octaves: 4,
+        seed: rand(1..10_000),
+        offset_x: 0,
+        offset_y: 0,
+        scale_height: 0.2,
+        scale_width: 0.7
+      },
+      voronoi: {
+        name: "voronoi",
+        blend_mode: "add",
+        opacity: 1.0,
+        octaves: 4,
+        seed: rand(1..10_000),
+        offset_x: 0,
+        offset_y: 0,
+        scale_height: 0.2,
+        scale_width: 0.7
       }
     }
   end
