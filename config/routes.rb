@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resource :export, only: [:show, :update]
     resource :water, only: [:show, :update]
     resource :weathering, only: [:show, :update]
+    resource :albedo, only: [:show, :update]
   end
 
   # Defines the root path route ("/")

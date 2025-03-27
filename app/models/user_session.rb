@@ -4,6 +4,7 @@ class UserSession < ApplicationRecord
   has_one :export, dependent: :destroy
   has_one :water, dependent: :destroy
   has_one :weathering, dependent: :destroy
+  has_one :albedo, dependent: :destroy
 
   def procedural_layers
     layers.includes(:layerable).map(&:layerable)
