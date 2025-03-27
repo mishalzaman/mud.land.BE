@@ -4,7 +4,8 @@ class UserSessionsController < ApplicationController
   def create
     user_session = UserSession.create!
     
-    Export.create!(user_session: user_session);
+    Export.create!(user_session: user_session)
+    Water.create!(user_session: user_session)
 
     render json: { id: user_session.id }, status: :ok
   end
