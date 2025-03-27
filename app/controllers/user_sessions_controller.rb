@@ -2,8 +2,11 @@ class UserSessionsController < ApplicationController
 
   # POST /user_sessions
   def create
-    session_record = UserSession.create!
-    render json: { id: session_record.id }, status: :ok
+    user_session = UserSession.create!
+    
+    Export.create!(user_session: user_session);
+
+    render json: { id: user_session.id }, status: :ok
   end
 
   # DELETE /user_sessions/:id

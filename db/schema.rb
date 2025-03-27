@@ -10,9 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_20_015651) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_27_015326) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "exports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_session_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_session_id"], name: "index_exports_on_user_session_id"
+  end
 
   create_table "gradient_noise_layers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
@@ -45,5 +52,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_20_015651) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "exports", "user_sessions"
   add_foreign_key "layers", "user_sessions"
 end

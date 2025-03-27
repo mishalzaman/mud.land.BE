@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resources :user_sessions, only: [:create, :destroy] do
     resources :layers, only: [:index, :create, :update, :destroy]
+    resource :export, only: [:show, :update]
   end
 
   # Defines the root path route ("/")
