@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_27_024502) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_27_132054) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -59,7 +59,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_27_024502) do
     t.index ["user_session_id"], name: "index_waters_on_user_session_id"
   end
 
+  create_table "weatherings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_session_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_session_id"], name: "index_weatherings_on_user_session_id"
+  end
+
   add_foreign_key "exports", "user_sessions"
   add_foreign_key "layers", "user_sessions"
   add_foreign_key "waters", "user_sessions"
+  add_foreign_key "weatherings", "user_sessions"
 end

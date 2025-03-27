@@ -6,6 +6,7 @@ class UserSessionsController < ApplicationController
     
     Export.create!(user_session: user_session)
     Water.create!(user_session: user_session)
+    Weathering.create!(user_session: user_session)
 
     render json: { id: user_session.id }, status: :ok
   end
