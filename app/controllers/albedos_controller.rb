@@ -5,7 +5,7 @@ class AlbedosController < ApplicationController
     albedo = @user_session.albedo
 
     if albedo
-      render json: albedo, status: :ok
+      render json: albedo, serializer: AlbedoSerializer, status: :ok
     else
       render status: :not_found
     end
