@@ -24,4 +24,13 @@ class UserSessionsController < ApplicationController
     end
   end
   
+  def mud
+    user_session = UserSession.find_by(id: params[:user_session_id])
+  
+    if user_session
+      render json: MudSerializer.new(user_session).as_json
+    else
+      render json: { error: "User session not found" }, status: :not_found
+    end
+  end
 end

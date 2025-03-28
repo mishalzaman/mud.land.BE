@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resource :water, only: [:show, :update]
     resource :weathering, only: [:show, :update]
     resource :albedo, only: [:show, :update]
+    get "mud"
   end
 
   # Defines the root path route ("/")
